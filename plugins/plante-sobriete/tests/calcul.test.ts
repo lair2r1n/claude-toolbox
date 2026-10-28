@@ -2,7 +2,7 @@ import { expect, test } from 'claude-code/testing'
 
 import {
   BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, FENETRE_MS, ajouterJour, cleJour, etatPour,
-  facteurModele, formatGrammes, grammesTour, joursDepuisTours, palierPour,
+  facteurModele, formatGrammes, formatLitres, grammesTour, joursDepuisTours, litresPour, palierPour,
 } from '../hooks/calcul'
 import { jaugeTexte } from '../hooks/dessin'
 
@@ -53,6 +53,11 @@ test('mois et année civils : cumul par jour rapporté au budget numérique', ()
 test('affichage', () => {
   expect(formatGrammes(38.4)).toBe('38 g')
   expect(formatGrammes(1250)).toBe('1,3 kg')
+  // ACV Mistral : 1,14 g de CO₂e vont avec 45 mL d'eau.
+  expect(formatLitres(litresPour(1.14))).toBe('45 mL')
+  expect(formatLitres(4.5)).toBe('4,5 L')
+  expect(formatLitres(107.4)).toBe('107 L')
+  expect(formatLitres(1250)).toBe('1,3 m³')
   expect(jaugeTexte(38)).toBe('▰▰▰▰▱▱▱▱▱▱')
   expect(jaugeTexte(250)).toBe('▰▰▰▰▰▰▰▰▰▰')
 })
@@ -77,6 +82,8 @@ for (const surface of ['terminal', 'desktop'] as const) {
     const arbre = JSON.stringify(await (bandeau as unknown as { drawn: () => Promise<unknown> }).drawn())
     expect(arbre.includes('57 %')).toBe(true)
     expect(arbre.includes('mois ')).toBe(true)
+    expect(arbre.includes('☁️')).toBe(true)
+    expect(arbre.includes('💧')).toBe(true)
     expect(arbre.includes('année ')).toBe(true)
     if (surface === 'terminal') expect(arbre.includes('jaunit')).toBe(true)
   })

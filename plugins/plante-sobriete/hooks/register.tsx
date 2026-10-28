@@ -4,7 +4,7 @@ import type { EngineInterface, Register } from 'claude-code'
 import type { Etat, Jours, Tour } from '../types'
 import {
   BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, PLAFOND_JOUR_G, ajouterJour, elaguer, etatPour,
-  formatGrammes, grammesTour, joursDepuisTours,
+  formatGrammes, formatLitres, grammesTour, joursDepuisTours, litresPour,
 } from './calcul'
 import { COULEURS, LIBELLES, jaugeTexte, plantSvg } from './dessin'
 
@@ -83,11 +83,12 @@ export const register: Register = on => {
     const { Box, Text } = elements
     // Le terminal connaît l'élément Svg mais n'en dessine rien : il garde la version texte.
     const Svg = e.surface !== 'terminal' && 'Svg' in elements ? elements.Svg : undefined
-    const infobulle = `Plante ${LIBELLES[s.palier]} : l'IA a émis environ ${formatGrammes(s.grammes24h)} CO₂e en 24 h, `
+    const infobulle = `Plante ${LIBELLES[s.palier]} : l'IA a émis environ ${formatGrammes(s.grammes24h)} CO₂e et consommé ${formatLitres(litresPour(s.grammes24h))} d'eau en 24 h, `
       + `soit ${s.pourcentPlafond} % du plafond (${formatGrammes(PLAFOND_JOUR_G)}, dix fois le budget du jour) et ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
-      + `Ce mois-ci : ${formatGrammes(s.mois.grammes)}, ${s.mois.pourcentBudget} % du budget du mois (${formatGrammes(BUDGET_NUMERIQUE_MOIS_G)}). `
-      + `Cette année : ${formatGrammes(s.annee.grammes)}, ${s.annee.pourcentBudget} % du budget de l'année (${formatGrammes(BUDGET_NUMERIQUE_ANNUEL_G)}). `
-      + 'Facteurs : ACV Mistral Large 2.'
+      + `Ce mois-ci : ${formatGrammes(s.mois.grammes)} et ${formatLitres(litresPour(s.mois.grammes))} d'eau, ${s.mois.pourcentBudget} % du budget du mois (${formatGrammes(BUDGET_NUMERIQUE_MOIS_G)}). `
+      + `Cette année : ${formatGrammes(s.annee.grammes)} et ${formatLitres(litresPour(s.annee.grammes))} d'eau, ${s.annee.pourcentBudget} % du budget de l'année (${formatGrammes(BUDGET_NUMERIQUE_ANNUEL_G)}). `
+      + 'Facteurs : ACV Mistral Large 2 (CO₂e et eau).'
+    const impact = `☁️ ${formatGrammes(s.grammes24h)} CO₂e · 💧 ${formatLitres(litresPour(s.grammes24h))}`
     const cumuls = `mois ${s.mois.pourcentBudget} % · année ${s.annee.pourcentBudget} %`
 
     // Une barre à elle, la plante calée à droite ; le séparateur la tient à l'écart
@@ -102,13 +103,16 @@ export const register: Register = on => {
                 <Box flexDirection="row" columnGap={1} alignItems="center">
                   <Svg key="plante" {...plantSvg(s.palier, infobulle)} isInteractive alt={infobulle} />
                   <Text color={COULEURS[s.palier]} bold>{`${s.pourcentPlafond} %`}</Text>
+                  <Text>{impact}</Text>
                   <Text dimColor>{cumuls}</Text>
                 </Box>
               )
             : (
                 <Text>
                   <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentPlafond)} ${s.pourcentPlafond} %`}</Text>
-                  <Text dimColor>{` ${LIBELLES[s.palier]} · ${cumuls}`}</Text>
+                  <Text dimColor>{` ${LIBELLES[s.palier]} · `}</Text>
+                  <Text>{impact}</Text>
+                  <Text dimColor>{` · ${cumuls}`}</Text>
                 </Text>
               )}
         </Box>

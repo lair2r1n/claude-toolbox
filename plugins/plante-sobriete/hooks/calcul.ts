@@ -12,8 +12,14 @@ export const BUDGET_NUMERIQUE_ANNUEL_G = BUDGET_ANNUEL_G * PART_NUMERIQUE
 export const BUDGET_NUMERIQUE_MOIS_G = BUDGET_NUMERIQUE_ANNUEL_G / 12
 export const BUDGET_JOUR_G = BUDGET_NUMERIQUE_ANNUEL_G / JOURS_OUVRES
 
-// ACV Mistral Large 2 (Carbone 4, ADEME, 2025) : 1,14 g CO₂e pour une réponse de 400 tokens.
+// ACV Mistral Large 2 (Carbone 4, ADEME, 2025) : 1,14 g CO₂e et 45 mL d'eau pour une réponse de 400 tokens.
 export const G_PAR_TOKEN_SORTIE = 1.14 / 400
+const ML_EAU_PAR_G_CO2 = 45 / 1.14
+
+// L'eau suit les émissions dans le même rapport que dans l'ACV.
+export function litresPour(grammes: number): number {
+  return (grammes * ML_EAU_PAR_G_CO2) / 1000
+}
 
 // Poids d'un token par rapport à un token de sortie, d'après la grille tarifaire Claude :
 // entrée = 1/5 de la sortie, écriture du cache = 1,25 × l'entrée, lecture du cache = 0,1 × l'entrée.
@@ -115,4 +121,12 @@ const ESPACE_FINE = ' '
 export function formatGrammes(g: number): string {
   if (g < 1000) return `${Math.round(g)}${ESPACE_FINE}g`
   return `${(g / 1000).toFixed(1).replace('.', ',')}${ESPACE_FINE}kg`
+}
+
+// 450 mL · 4,5 L · 107 L · 1,2 m³
+export function formatLitres(l: number): string {
+  if (l < 1) return `${Math.round(l * 1000)}${ESPACE_FINE}mL`
+  if (l < 10) return `${l.toFixed(1).replace('.', ',')}${ESPACE_FINE}L`
+  if (l < 1000) return `${Math.round(l)}${ESPACE_FINE}L`
+  return `${(l / 1000).toFixed(1).replace('.', ',')}${ESPACE_FINE}m³`
 }

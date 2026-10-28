@@ -17,6 +17,7 @@ C'est le budget de **tout** le numérique d'une personne : terminaux, réseaux, 
 
 | Terme | Valeur | Source ou hypothèse |
 |---|---|---|
+| Eau | 45 mL pour 1,14 g CO₂e, soit ≈ 39 mL par gramme | Même ACV : l'eau suit les émissions dans le même rapport |
 | Émissions d'un token de sortie | 1,14 g CO₂e ÷ 400 tokens ≈ 2,85 mg | ACV de Mistral Large 2 (Mistral AI, Carbone 4, ADEME, 2025) : 1,14 g CO₂e et 45 mL d'eau pour une réponse de 400 tokens |
 | Poids d'un token d'entrée | 0,2 × un token de sortie | Rapport des prix Claude (entrée = 1/5 de la sortie) |
 | Poids d'une écriture dans le cache | 0,25 × un token de sortie | Rapport des prix Claude (1,25 × l'entrée) |
