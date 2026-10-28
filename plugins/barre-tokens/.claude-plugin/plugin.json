@@ -1,0 +1,8 @@
+{
+  "name": "barre-tokens",
+  "version": "0.1.0",
+  "description": "Barre au-dessus du champ de saisie : contexte, tokens du dernier tour et de la session, coût, limites",
+  "author": { "name": "Thomas Binant" },
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

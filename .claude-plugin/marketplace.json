@@ -1,0 +1,12 @@
+{
+  "name": "claude-toolbox",
+  "owner": { "name": "Thomas Binant" },
+  "metadata": { "description": "Mods, skills et plugins maison pour Claude Code" },
+  "plugins": [
+    {
+      "name": "barre-tokens",
+      "source": "./plugins/barre-tokens",
+      "description": "Barre au-dessus du champ de saisie : contexte, tokens du dernier tour et de la session, coût, limites"
+    }
+  ]
+}
