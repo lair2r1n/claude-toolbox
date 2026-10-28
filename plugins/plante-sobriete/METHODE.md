@@ -29,7 +29,18 @@ Les prix servent ici d'indicateur du calcul consommé, faute de données publié
 
 Chaque fin de tour, sous-agents compris et dans n'importe quelle session, ajoute ses grammes à un journal commun (stockage du mod, partagé entre les sessions). Seuls les tours des 24 dernières heures comptent. Il n'y a pas de remise à zéro à heure fixe : la plante reverdit au fur et à mesure que les anciens tours sortent de la fenêtre.
 
-## 4. Les paliers
+## 4. Le mois et l'année
+
+Chaque tour s'ajoute aussi au cumul de son jour (heure locale). On affiche la part déjà consommée par l'IA :
+
+| Période | Budget numérique de référence |
+|---|---|
+| Mois civil en cours | 2 t × 4,4 % ÷ 12 ≈ 7,3 kg CO₂e |
+| Année civile en cours | 2 t × 4,4 % = 88 kg CO₂e |
+
+Ce sont des cumuls depuis le début du mois et de l'année, pas des rythmes : ils ne font que monter, puis repartent de zéro le 1er du mois et le 1er janvier. Seuls l'année en cours et la précédente sont conservées.
+
+## 5. Les paliers
 
 | Palier | Part du budget numérique du jour |
 |---|---|

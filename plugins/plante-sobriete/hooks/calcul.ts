@@ -1,14 +1,16 @@
 // Calcul pur : tokens d'un tour → g CO₂e, puis part du budget numérique sur 24 h glissantes.
 // Sources et hypothèses : METHODE.md.
 
-import type { Etat, Palier, Tour } from '../types'
+import type { Cumul, Etat, Jours, Palier, Tour } from '../types'
 
 // Budget : 2 t CO₂e/an/personne (Accord de Paris, repère ADEME) × 4,4 % pour le numérique
 // (ADEME-Arcep, janvier 2025) ÷ 218 jours (forfait jours, art. L3121-64 du Code du travail).
 export const BUDGET_ANNUEL_G = 2_000_000
 export const PART_NUMERIQUE = 0.044
 export const JOURS_OUVRES = 218
-export const BUDGET_JOUR_G = (BUDGET_ANNUEL_G * PART_NUMERIQUE) / JOURS_OUVRES
+export const BUDGET_NUMERIQUE_ANNUEL_G = BUDGET_ANNUEL_G * PART_NUMERIQUE
+export const BUDGET_NUMERIQUE_MOIS_G = BUDGET_NUMERIQUE_ANNUEL_G / 12
+export const BUDGET_JOUR_G = BUDGET_NUMERIQUE_ANNUEL_G / JOURS_OUVRES
 
 // ACV Mistral Large 2 (Carbone 4, ADEME, 2025) : 1,14 g CO₂e pour une réponse de 400 tokens.
 export const G_PAR_TOKEN_SORTIE = 1.14 / 400
@@ -58,10 +60,48 @@ export function palierPour(pourcent: number): Palier {
   return 'dessechee'
 }
 
-export function etatPour(tours: readonly Tour[], maintenant: number): Etat {
+function deuxChiffres(n: number): string {
+  return String(n).padStart(2, '0')
+}
+
+// AAAA-MM-JJ en heure locale.
+export function cleJour(t: number): string {
+  const d = new Date(t)
+  return `${d.getFullYear()}-${deuxChiffres(d.getMonth() + 1)}-${deuxChiffres(d.getDate())}`
+}
+
+// Ajoute un tour au cumul de son jour ; ne garde que l'année en cours et la précédente.
+export function ajouterJour(jours: Jours, t: number, g: number): Jours {
+  const cle = cleJour(t)
+  const anneeMin = new Date(t).getFullYear() - 1
+  const suivant: Jours = {}
+  for (const [k, v] of Object.entries(jours)) if (Number(k.slice(0, 4)) >= anneeMin) suivant[k] = v
+  suivant[cle] = (suivant[cle] ?? 0) + g
+  return suivant
+}
+
+// Reconstitue les cumuls par jour à partir des tours, quand le cumul n'existe pas encore.
+export function joursDepuisTours(tours: readonly Tour[]): Jours {
+  return tours.reduce<Jours>((j, t) => ajouterJour(j, t.t, t.g), {})
+}
+
+function cumul(jours: Jours, prefixe: string, budget: number): Cumul {
+  const grammes = Object.entries(jours).reduce((s, [k, v]) => (k.startsWith(prefixe) ? s + v : s), 0)
+  return { grammes, pourcentBudget: Math.round((grammes / budget) * 100) }
+}
+
+export function etatPour(tours: readonly Tour[], jours: Jours, maintenant: number): Etat {
   const grammes24h = elaguer(tours, maintenant).reduce((s, t) => s + t.g, 0)
   const pourcentBudget = Math.round((grammes24h / BUDGET_JOUR_G) * 100)
-  return { grammes24h, pourcentBudget, palier: palierPour(pourcentBudget) }
+  const aujourdhui = cleJour(maintenant)
+  return {
+    grammes24h,
+    pourcentBudget,
+    palier: palierPour(pourcentBudget),
+    // Mois et année civils en cours, rapportés au budget numérique du mois (1/12) et de l'année.
+    mois: cumul(jours, aujourdhui.slice(0, 7), BUDGET_NUMERIQUE_MOIS_G),
+    annee: cumul(jours, aujourdhui.slice(0, 4), BUDGET_NUMERIQUE_ANNUEL_G),
+  }
 }
 
 const ESPACE_FINE = ' '

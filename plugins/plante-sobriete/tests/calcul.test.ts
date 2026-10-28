@@ -1,6 +1,9 @@
 import { expect, test } from 'claude-code/testing'
 
-import { BUDGET_JOUR_G, FENETRE_MS, etatPour, facteurModele, formatGrammes, grammesTour, palierPour } from '../hooks/calcul'
+import {
+  BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, FENETRE_MS, ajouterJour, cleJour, etatPour,
+  facteurModele, formatGrammes, grammesTour, joursDepuisTours, palierPour,
+} from '../hooks/calcul'
 import { jaugeTexte } from '../hooks/dessin'
 
 test('budget numérique du jour : 2 t × 4,4 % ÷ 218 jours', () => {
@@ -25,9 +28,25 @@ test('paliers en part du budget', () => {
 test('24 h glissantes : les vieux tours sortent de la fenêtre', () => {
   const maintenant = FENETRE_MS * 3
   const tours = [{ t: maintenant - FENETRE_MS - 1, g: 1000 }, { t: maintenant - 1000, g: BUDGET_JOUR_G * 0.3 }]
-  const s = etatPour(tours, maintenant)
+  const s = etatPour(tours, {}, maintenant)
   expect(s.pourcentBudget).toBe(30)
   expect(s.palier).toBe('jaunit')
+})
+
+test('mois et année civils : cumul par jour rapporté au budget numérique', () => {
+  const maintenant = new Date(2026, 9, 28, 15).getTime()
+  let jours = ajouterJour({}, new Date(2026, 9, 2).getTime(), BUDGET_NUMERIQUE_MOIS_G * 0.1)
+  jours = ajouterJour(jours, maintenant, BUDGET_NUMERIQUE_MOIS_G * 0.15)
+  jours = ajouterJour(jours, new Date(2026, 0, 5).getTime(), BUDGET_NUMERIQUE_ANNUEL_G * 0.05)
+  jours = ajouterJour(jours, new Date(2025, 11, 31).getTime(), 1_000_000)
+  const s = etatPour([], jours, maintenant)
+  expect(s.mois.pourcentBudget).toBe(25)
+  // 25 % d'un mois = 25/12 % de l'année, plus les 5 % de janvier ; décembre 2025 n'entre pas.
+  expect(s.annee.pourcentBudget).toBe(7)
+  expect(cleJour(maintenant)).toBe('2026-10-28')
+  // Les années de plus d'un an sont oubliées.
+  expect(Object.keys(ajouterJour({ '2024-03-01': 5 }, maintenant, 1))).toEqual(['2026-10-28'])
+  expect(joursDepuisTours([{ t: maintenant, g: 2 }, { t: maintenant + 1, g: 3 }])['2026-10-28']).toBe(5)
 })
 
 test('affichage', () => {
@@ -56,6 +75,8 @@ for (const surface of ['terminal', 'desktop'] as const) {
     } as never)
     const arbre = JSON.stringify(await (bandeau as unknown as { drawn: () => Promise<unknown> }).drawn())
     expect(arbre.includes('60 %')).toBe(true)
+    expect(arbre.includes('mois ')).toBe(true)
+    expect(arbre.includes('année ')).toBe(true)
     if (surface === 'terminal') expect(arbre.includes('fanée')).toBe(true)
   })
 }

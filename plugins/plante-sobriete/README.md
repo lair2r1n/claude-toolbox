@@ -13,7 +13,8 @@ Le repère n'est pas réglable : c'est le **budget numérique quotidien compatib
 | Desséchée | plus que tout le budget numérique du jour |
 
 - **Dans l'app desktop**, la plante est dessinée sur 24 px, avec le pourcentage à côté. Le survol affiche les grammes de CO₂e estimés et le repère.
-- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 38 % jaunit`.
+- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 38 % jaunit · mois 12 % · année 3 %`.
+- **Mois et année** : à côté de la plante, la part du budget numérique du mois civil (1/12 du budget annuel) et de l'année civile déjà consommée par l'IA. Le survol donne les mêmes chiffres en grammes.
 - Le compte est **global** : toutes les sessions et tous les sous-agents de la machine alimentent la même plante, sur 24 heures glissantes. Ouvrir une nouvelle session ne la fait donc pas repartir à neuf.
 
 Le mod fonctionne seul. Avec [`barre-tokens`](../barre-tokens), sa barre s'affiche juste sous celle des tokens.
