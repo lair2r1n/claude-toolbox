@@ -42,13 +42,15 @@ Ce sont des cumuls depuis le début du mois et de l'année, pas des rythmes : il
 
 ## 5. Les paliers
 
-| Palier | Part du budget numérique du jour |
-|---|---|
-| En fleur | ≤ 100 % |
-| Feuillue | ≤ 250 % |
-| Jaunit | ≤ 500 % |
-| Fanée | ≤ 1 000 % |
-| Desséchée | > 1 000 % |
+Le chiffre affiché à côté de la plante est la part d'un **plafond du jour** fixé à dix fois le budget numérique du jour (≈ 4,04 kg CO₂e). Le survol donne aussi la part du budget lui-même.
+
+| Palier | Part du plafond | Part du budget numérique du jour |
+|---|---|---|
+| En fleur | ≤ 10 % | ≤ 100 % |
+| Feuillue | ≤ 25 % | ≤ 250 % |
+| Jaunit | ≤ 50 % | ≤ 500 % |
+| Fanée | ≤ 100 % | ≤ 1 000 % |
+| Desséchée | > 100 % | > 1 000 % |
 
 Les paliers au-delà de 100 % sont une **convention de design**, et non une donnée. Une première version plaçait la plante desséchée à 100 % : un usage agentique d'Opus (150 à 250 g par tour) la faisait mourir en trois ou quatre tours, ce qui la rendait inutilisable comme repère ; les seuils ont été multipliés par dix.
 
