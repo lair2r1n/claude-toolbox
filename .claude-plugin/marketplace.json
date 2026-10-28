@@ -1,12 +1,21 @@
 {
   "name": "claude-toolbox",
-  "owner": { "name": "Thomas Binant" },
-  "metadata": { "description": "Mods, skills et plugins maison pour Claude Code" },
+  "owner": {
+    "name": "Thomas Binant"
+  },
+  "metadata": {
+    "description": "Mods, skills et plugins maison pour Claude Code"
+  },
   "plugins": [
     {
       "name": "barre-tokens",
       "source": "./plugins/barre-tokens",
       "description": "Barre au-dessus du champ de saisie : contexte, tokens du dernier tour et de la session, coût, limites"
+    },
+    {
+      "name": "plante-sobriete",
+      "source": "./plugins/plante-sobriete",
+      "description": "Une plante au-dessus du champ de saisie qui fane quand l'usage de l'IA dépasse le budget numérique compatible avec l'Accord de Paris"
     }
   ]
 }

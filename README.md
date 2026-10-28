@@ -7,6 +7,7 @@ Mods, skills et plugins maison pour [Claude Code](https://claude.com/claude-code
 | Plugin | Type | Rôle |
 |---|---|---|
 | [`barre-tokens`](plugins/barre-tokens) | mod | Barre au-dessus du champ de saisie : projet et branche git, remplissage du contexte, tokens du dernier tour (entrée ↑, sortie ↓, part du cache), total et coût de la session, limites de débit 5 h / 7 j |
+| [`plante-sobriete`](plugins/plante-sobriete) | mod | Plante qui fane quand l'usage de l'IA dépasse, sur 24 h glissantes, la part du budget numérique compatible avec l'Accord de Paris (ADEME-Arcep, ACV Mistral) |
 
 ## Installation
 
@@ -14,6 +15,7 @@ Dans un terminal, à l'invite de Claude Code :
 
 ```
 /plugin install barre-tokens --marketplace lair2r1n/claude-toolbox
+/plugin install plante-sobriete --marketplace lair2r1n/claude-toolbox
 ```
 
 Répondre `y` pour ajouter la marketplace, puis choisir la portée (utilisateur par défaut).
