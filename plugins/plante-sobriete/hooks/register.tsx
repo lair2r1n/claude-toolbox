@@ -61,11 +61,11 @@ export const register: Register = on => {
       + `soit ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
       + 'Facteurs : ACV Mistral Large 2.'
 
-    // Une barre à elle, sous celles des autres mods, la plante calée à droite.
+    // Une barre à elle, la plante calée à droite ; le séparateur la tient à l'écart
+    // de la barre des tokens, que barre-tokens ajoute en dessous.
     return (
       <Box flexDirection="column">
         {dessous}
-        <Text dimColor wrap="truncate">{'─'.repeat(Math.max(20, e.props.bodyColumns))}</Text>
         <Box flexDirection="row" justifyContent="flex-end" alignItems="center" columnGap={1}>
           <Text dimColor>Sobriété IA</Text>
           {Svg
@@ -82,6 +82,7 @@ export const register: Register = on => {
                 </Text>
               )}
         </Box>
+        <Text dimColor wrap="truncate">{'─'.repeat(Math.max(20, e.props.bodyColumns))}</Text>
       </Box>
     )
   })
