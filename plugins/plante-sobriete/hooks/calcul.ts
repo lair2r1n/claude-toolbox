@@ -53,10 +53,9 @@ export function elaguer(tours: readonly Tour[], maintenant: number): Tour[] {
 // Plafond affiché : dix fois le budget numérique du jour. La plante est desséchée au-delà.
 export const PLAFOND_JOUR_G = BUDGET_JOUR_G * 10
 
-// Seuils en part du plafond. En fleur tant que l'IA seule tient dans tout le budget
-// numérique du jour (10 % du plafond).
+// Seuils en part du plafond, par quarts.
 const PALIERS: readonly [number, Palier][] = [
-  [10, 'fleur'], [25, 'feuillue'], [50, 'jaunit'], [100, 'fanee'],
+  [25, 'fleur'], [50, 'feuillue'], [75, 'jaunit'], [100, 'fanee'],
 ]
 
 export function palierPour(pourcent: number): Palier {

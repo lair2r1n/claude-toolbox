@@ -46,13 +46,13 @@ Le chiffre affiché à côté de la plante est la part d'un **plafond du jour** 
 
 | Palier | Part du plafond | Part du budget numérique du jour |
 |---|---|---|
-| En fleur | ≤ 10 % | ≤ 100 % |
-| Feuillue | ≤ 25 % | ≤ 250 % |
-| Jaunit | ≤ 50 % | ≤ 500 % |
+| En fleur | ≤ 25 % | ≤ 250 % |
+| Feuillue | ≤ 50 % | ≤ 500 % |
+| Jaunit | ≤ 75 % | ≤ 750 % |
 | Fanée | ≤ 100 % | ≤ 1 000 % |
 | Desséchée | > 100 % | > 1 000 % |
 
-Les paliers au-delà de 100 % sont une **convention de design**, et non une donnée. Une première version plaçait la plante desséchée à 100 % : un usage agentique d'Opus (150 à 250 g par tour) la faisait mourir en trois ou quatre tours, ce qui la rendait inutilisable comme repère ; les seuils ont été multipliés par dix.
+Le plafond et les paliers sont une **convention de design**, et non une donnée. Une première version plaçait la plante desséchée à 100 % du budget : un usage agentique d'Opus (150 à 250 g par tour) la faisait mourir en trois ou quatre tours, ce qui la rendait inutilisable comme repère. Le plafond a été porté à dix fois le budget, puis découpé en quarts pour que la plante ne fane qu'au dernier quart.
 
 ## Limites
 

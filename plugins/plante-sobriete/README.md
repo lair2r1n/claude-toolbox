@@ -8,14 +8,14 @@ Le pourcentage affiché est la part du **plafond du jour**, fixé à dix fois ce
 
 | Plante | Plafond du jour | Soit, en budget numérique du jour |
 |---|---|---|
-| En fleur | ≤ 10 % | ≤ 1 fois |
-| Feuillue | ≤ 25 % | ≤ 2,5 fois |
-| Jaunit | ≤ 50 % | ≤ 5 fois |
+| En fleur | ≤ 25 % | ≤ 2,5 fois |
+| Feuillue | ≤ 50 % | ≤ 5 fois |
+| Jaunit | ≤ 75 % | ≤ 7,5 fois |
 | Fanée | ≤ 100 % | ≤ 10 fois |
 | Desséchée | > 100 % | plus de 10 fois |
 
 - **Dans l'app desktop**, la plante est dessinée sur 24 px, avec le pourcentage du plafond à côté. Le survol affiche les grammes de CO₂e estimés, la part du plafond et celle du budget numérique du jour.
-- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 38 % jaunit · mois 12 % · année 3 %`.
+- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 38 % feuillue · mois 12 % · année 3 %`.
 - **Mois et année** : à côté de la plante, la part du budget numérique du mois civil (1/12 du budget annuel) et de l'année civile déjà consommée par l'IA. Le survol donne les mêmes chiffres en grammes.
 - Le compte est **global** : toutes les sessions et tous les sous-agents de la machine alimentent la même plante, sur 24 heures glissantes. Ouvrir une nouvelle session ne la fait donc pas repartir à neuf.
 

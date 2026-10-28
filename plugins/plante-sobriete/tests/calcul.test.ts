@@ -21,7 +21,7 @@ test('un tour : 400 tokens de sortie sur Sonnet = la réponse type de l\'ACV Mis
 })
 
 test('paliers en part du budget', () => {
-  expect([5, 10, 20, 40, 80, 100, 101].map(palierPour))
+  expect([10, 25, 40, 60, 90, 100, 101].map(palierPour))
     .toEqual(['fleur', 'fleur', 'feuillue', 'jaunit', 'fanee', 'fanee', 'dessechee'])
 })
 
@@ -78,6 +78,6 @@ for (const surface of ['terminal', 'desktop'] as const) {
     expect(arbre.includes('57 %')).toBe(true)
     expect(arbre.includes('mois ')).toBe(true)
     expect(arbre.includes('année ')).toBe(true)
-    if (surface === 'terminal') expect(arbre.includes('fanée')).toBe(true)
+    if (surface === 'terminal') expect(arbre.includes('jaunit')).toBe(true)
   })
 }
