@@ -61,23 +61,26 @@ export const register: Register = on => {
       + `soit ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
       + 'Facteurs : ACV Mistral Large 2.'
 
+    // Une barre à elle, sous celles des autres mods, la plante calée à droite.
     return (
-      <Box flexDirection="row" alignItems="flex-end" columnGap={1}>
-        <Box flexDirection="column" flexGrow={1}>{dessous}</Box>
-        {Svg
-          ? (
-              <Box flexDirection="row" columnGap={1} alignItems="center">
-                <Svg key="plante" {...plantSvg(s.palier, infobulle)} isInteractive alt={infobulle} />
-                <Text color={COULEURS[s.palier]} bold>{`${s.pourcentBudget} %`}</Text>
-              </Box>
-            )
-          : (
-              <Text>
-                <Text dimColor>Plante </Text>
-                <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentBudget)} ${s.pourcentBudget} %`}</Text>
-                <Text dimColor> {LIBELLES[s.palier]}</Text>
-              </Text>
-            )}
+      <Box flexDirection="column">
+        {dessous}
+        <Box flexDirection="row" justifyContent="flex-end" alignItems="center" columnGap={1}>
+          <Text dimColor>Sobriété IA</Text>
+          {Svg
+            ? (
+                <Box flexDirection="row" columnGap={1} alignItems="center">
+                  <Svg key="plante" {...plantSvg(s.palier, infobulle)} isInteractive alt={infobulle} />
+                  <Text color={COULEURS[s.palier]} bold>{`${s.pourcentBudget} %`}</Text>
+                </Box>
+              )
+            : (
+                <Text>
+                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentBudget)} ${s.pourcentBudget} %`}</Text>
+                  <Text dimColor> {LIBELLES[s.palier]}</Text>
+                </Text>
+              )}
+        </Box>
       </Box>
     )
   })
