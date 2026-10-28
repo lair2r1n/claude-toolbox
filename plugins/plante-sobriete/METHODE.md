@@ -11,7 +11,7 @@ Comment la plante passe des tokens consommés à un état. Toutes les constantes
 | Jours travaillés dans l'année | 218 | Forfait jours, article L3121-64 du Code du travail |
 | **Budget numérique du jour** | **2 000 000 g × 4,4 % ÷ 218 ≈ 404 g CO₂e** | |
 
-C'est le budget de **tout** le numérique d'une personne : terminaux, réseaux, vidéo, cloud et IA. La plante mesure quelle part de ce budget l'IA consomme à elle seule. Au-delà de 100 %, l'IA dépasse à elle seule tout ce que le numérique devrait émettre : c'est le seul seuil qui n'est pas une convention.
+C'est le budget de **tout** le numérique d'une personne : terminaux, réseaux, vidéo, cloud et IA. La plante mesure quelle part de ce budget l'IA consomme à elle seule. Elle reste en fleur tant que l'IA tient dans tout le budget numérique du jour (100 %), seul seuil qui ne soit pas une convention.
 
 ## 2. Des tokens aux grammes
 
@@ -44,13 +44,13 @@ Ce sont des cumuls depuis le début du mois et de l'année, pas des rythmes : il
 
 | Palier | Part du budget numérique du jour |
 |---|---|
-| En fleur | ≤ 10 % |
-| Feuillue | ≤ 25 % |
-| Jaunit | ≤ 50 % |
-| Fanée | ≤ 100 % |
-| Desséchée | > 100 % |
+| En fleur | ≤ 100 % |
+| Feuillue | ≤ 250 % |
+| Jaunit | ≤ 500 % |
+| Fanée | ≤ 1 000 % |
+| Desséchée | > 1 000 % |
 
-Les paliers intermédiaires sont une **convention de design**, et non une donnée.
+Les paliers au-delà de 100 % sont une **convention de design**, et non une donnée. Une première version plaçait la plante desséchée à 100 % : un usage agentique d'Opus (150 à 250 g par tour) la faisait mourir en trois ou quatre tours, ce qui la rendait inutilisable comme repère ; les seuils ont été multipliés par dix.
 
 ## Limites
 

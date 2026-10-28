@@ -6,14 +6,14 @@ Le repère n'est pas réglable : c'est le **budget numérique quotidien compatib
 
 | Plante | L'IA a consommé, sur les 24 dernières heures… |
 |---|---|
-| En fleur | ≤ 10 % du budget numérique du jour |
-| Feuillue | ≤ 25 % |
-| Jaunit | ≤ 50 % |
-| Fanée | ≤ 100 % |
-| Desséchée | plus que tout le budget numérique du jour |
+| En fleur | ≤ 100 % du budget numérique du jour |
+| Feuillue | ≤ 250 % |
+| Jaunit | ≤ 500 % |
+| Fanée | ≤ 1 000 % |
+| Desséchée | plus de dix fois le budget numérique du jour |
 
 - **Dans l'app desktop**, la plante est dessinée sur 24 px, avec le pourcentage à côté. Le survol affiche les grammes de CO₂e estimés et le repère.
-- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 38 % jaunit · mois 12 % · année 3 %`.
+- **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 380 % jaunit · mois 12 % · année 3 % (la jauge va de 0 à 1 000 %, le seuil de la plante desséchée).`.
 - **Mois et année** : à côté de la plante, la part du budget numérique du mois civil (1/12 du budget annuel) et de l'année civile déjà consommée par l'IA. Le survol donne les mêmes chiffres en grammes.
 - Le compte est **global** : toutes les sessions et tous les sous-agents de la machine alimentent la même plante, sur 24 heures glissantes. Ouvrir une nouvelle session ne la fait donc pas repartir à neuf.
 

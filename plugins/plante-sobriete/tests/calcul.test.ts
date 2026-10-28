@@ -21,7 +21,7 @@ test('un tour : 400 tokens de sortie sur Sonnet = la réponse type de l\'ACV Mis
 })
 
 test('paliers en part du budget', () => {
-  expect([5, 10, 20, 40, 80, 100, 101].map(palierPour))
+  expect([50, 100, 200, 400, 800, 1000, 1001].map(palierPour))
     .toEqual(['fleur', 'fleur', 'feuillue', 'jaunit', 'fanee', 'fanee', 'dessechee'])
 })
 
@@ -30,7 +30,7 @@ test('24 h glissantes : les vieux tours sortent de la fenêtre', () => {
   const tours = [{ t: maintenant - FENETRE_MS - 1, g: 1000 }, { t: maintenant - 1000, g: BUDGET_JOUR_G * 0.3 }]
   const s = etatPour(tours, {}, maintenant)
   expect(s.pourcentBudget).toBe(30)
-  expect(s.palier).toBe('jaunit')
+  expect(s.palier).toBe('fleur')
 })
 
 test('mois et année civils : cumul par jour rapporté au budget numérique', () => {
@@ -77,6 +77,6 @@ for (const surface of ['terminal', 'desktop'] as const) {
     expect(arbre.includes('60 %')).toBe(true)
     expect(arbre.includes('mois ')).toBe(true)
     expect(arbre.includes('année ')).toBe(true)
-    if (surface === 'terminal') expect(arbre.includes('fanée')).toBe(true)
+    if (surface === 'terminal') expect(arbre.includes('en fleur')).toBe(true)
   })
 }

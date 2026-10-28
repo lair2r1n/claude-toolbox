@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { Jours, Tour } from '../types'
+import type { Etat, Jours, Tour } from '../types'
 import {
   BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, ajouterJour, elaguer, etatPour,
   formatGrammes, grammesTour, joursDepuisTours,
@@ -33,12 +33,18 @@ async function rafraichir($: EngineInterface) {
   const tours = await lireTours($)
   const suivant = etatPour(tours, await lireJours($, tours), await $.clock.now())
   await update($, etat, avant =>
-    avant !== null && avant.pourcentBudget === suivant.pourcentBudget && avant.palier === suivant.palier
+    estComplet(avant) && avant.pourcentBudget === suivant.pourcentBudget && avant.palier === suivant.palier
       && avant.mois.pourcentBudget === suivant.mois.pourcentBudget
       && avant.annee.pourcentBudget === suivant.annee.pourcentBudget
       ? avant
       : suivant,
   )
+}
+
+// $.state survit au rechargement du mod : un état écrit par une version précédente peut
+// manquer de champs (mois et année avant la 0.2). On le tient pour absent.
+function estComplet(s: Etat | null): s is Etat {
+  return s !== null && typeof s.mois === 'object' && s.mois !== null && typeof s.annee === 'object' && s.annee !== null
 }
 
 export const register: Register = on => {
@@ -71,7 +77,7 @@ export const register: Register = on => {
     const dessous = await next(e)
     if (e.props.hasSurvey) return dessous
     const s = await read($, etat)
-    if (s === null) return dessous
+    if (!estComplet(s)) return dessous
 
     const elements = $.ui.resolve(e)
     const { Box, Text } = elements
@@ -101,7 +107,7 @@ export const register: Register = on => {
               )
             : (
                 <Text>
-                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentBudget)} ${s.pourcentBudget} %`}</Text>
+                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentBudget / 10)} ${s.pourcentBudget} %`}</Text>
                   <Text dimColor>{` ${LIBELLES[s.palier]} · ${cumuls}`}</Text>
                 </Text>
               )}

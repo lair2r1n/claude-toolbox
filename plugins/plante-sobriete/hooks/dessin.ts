@@ -70,7 +70,7 @@ export const COULEURS: Record<Palier, 'success' | 'suggestion' | 'warning' | 'er
   dessechee: 'inactive',
 }
 
-// Jauge texte (terminal) : 10 cases pour 0 à 100 % du budget, pleine au-delà.
+// Jauge texte (terminal) : 10 cases pour 0 à 100 % de ce qu'on lui donne, pleine au-delà.
 export function jaugeTexte(pourcent: number, cases = 10): string {
   const pleines = Math.min(cases, Math.max(0, Math.round((pourcent / 100) * cases)))
   return '▰'.repeat(pleines) + '▱'.repeat(cases - pleines)

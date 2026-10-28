@@ -50,9 +50,10 @@ export function elaguer(tours: readonly Tour[], maintenant: number): Tour[] {
   return tours.filter(t => maintenant - t.t < FENETRE_MS)
 }
 
-// Seuils en part du budget numérique du jour ; au-delà de 100 %, l'IA seule dépasse tout le budget.
+// Seuils en part du budget numérique du jour. En fleur tant que l'IA seule tient dans tout le
+// budget numérique ; desséchée au-delà de dix fois ce budget.
 const PALIERS: readonly [number, Palier][] = [
-  [10, 'fleur'], [25, 'feuillue'], [50, 'jaunit'], [100, 'fanee'],
+  [100, 'fleur'], [250, 'feuillue'], [500, 'jaunit'], [1000, 'fanee'],
 ]
 
 export function palierPour(pourcent: number): Palier {
