@@ -65,6 +65,7 @@ export const register: Register = on => {
     return (
       <Box flexDirection="column">
         {dessous}
+        <Text dimColor wrap="truncate">{'─'.repeat(Math.max(20, e.props.bodyColumns))}</Text>
         <Box flexDirection="row" justifyContent="flex-end" alignItems="center" columnGap={1}>
           <Text dimColor>Sobriété IA</Text>
           {Svg
