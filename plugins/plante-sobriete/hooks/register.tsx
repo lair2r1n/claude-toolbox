@@ -3,7 +3,7 @@ import type { EngineInterface, Register } from 'claude-code'
 
 import type { Etat, Jours, Tour } from '../types'
 import {
-  BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, ajouterJour, elaguer, etatPour,
+  BUDGET_JOUR_G, BUDGET_NUMERIQUE_ANNUEL_G, BUDGET_NUMERIQUE_MOIS_G, PLAFOND_JOUR_G, ajouterJour, elaguer, etatPour,
   formatGrammes, grammesTour, joursDepuisTours,
 } from './calcul'
 import { COULEURS, LIBELLES, jaugeTexte, plantSvg } from './dessin'
@@ -33,7 +33,7 @@ async function rafraichir($: EngineInterface) {
   const tours = await lireTours($)
   const suivant = etatPour(tours, await lireJours($, tours), await $.clock.now())
   await update($, etat, avant =>
-    estComplet(avant) && avant.pourcentBudget === suivant.pourcentBudget && avant.palier === suivant.palier
+    estComplet(avant) && avant.pourcentPlafond === suivant.pourcentPlafond && avant.palier === suivant.palier
       && avant.mois.pourcentBudget === suivant.mois.pourcentBudget
       && avant.annee.pourcentBudget === suivant.annee.pourcentBudget
       ? avant
@@ -42,9 +42,9 @@ async function rafraichir($: EngineInterface) {
 }
 
 // $.state survit au rechargement du mod : un état écrit par une version précédente peut
-// manquer de champs (mois et année avant la 0.2). On le tient pour absent.
+// manquer de champs (mois et année avant la 0.2, plafond avant la 0.3). On le tient pour absent.
 function estComplet(s: Etat | null): s is Etat {
-  return s !== null && typeof s.mois === 'object' && s.mois !== null && typeof s.annee === 'object' && s.annee !== null
+  return s !== null && typeof s.pourcentPlafond === 'number' && typeof s.mois === 'object' && s.mois !== null && typeof s.annee === 'object' && s.annee !== null
 }
 
 export const register: Register = on => {
@@ -84,7 +84,7 @@ export const register: Register = on => {
     // Le terminal connaît l'élément Svg mais n'en dessine rien : il garde la version texte.
     const Svg = e.surface !== 'terminal' && 'Svg' in elements ? elements.Svg : undefined
     const infobulle = `Plante ${LIBELLES[s.palier]} : l'IA a émis environ ${formatGrammes(s.grammes24h)} CO₂e en 24 h, `
-      + `soit ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
+      + `soit ${s.pourcentPlafond} % du plafond (${formatGrammes(PLAFOND_JOUR_G)}, dix fois le budget du jour) et ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
       + `Ce mois-ci : ${formatGrammes(s.mois.grammes)}, ${s.mois.pourcentBudget} % du budget du mois (${formatGrammes(BUDGET_NUMERIQUE_MOIS_G)}). `
       + `Cette année : ${formatGrammes(s.annee.grammes)}, ${s.annee.pourcentBudget} % du budget de l'année (${formatGrammes(BUDGET_NUMERIQUE_ANNUEL_G)}). `
       + 'Facteurs : ACV Mistral Large 2.'
@@ -101,13 +101,13 @@ export const register: Register = on => {
             ? (
                 <Box flexDirection="row" columnGap={1} alignItems="center">
                   <Svg key="plante" {...plantSvg(s.palier, infobulle)} isInteractive alt={infobulle} />
-                  <Text color={COULEURS[s.palier]} bold>{`${s.pourcentBudget} %`}</Text>
+                  <Text color={COULEURS[s.palier]} bold>{`${s.pourcentPlafond} %`}</Text>
                   <Text dimColor>{cumuls}</Text>
                 </Box>
               )
             : (
                 <Text>
-                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentBudget / 10)} ${s.pourcentBudget} %`}</Text>
+                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentPlafond)} ${s.pourcentPlafond} %`}</Text>
                   <Text dimColor>{` ${LIBELLES[s.palier]} · ${cumuls}`}</Text>
                 </Text>
               )}

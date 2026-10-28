@@ -4,13 +4,15 @@ Une petite plante, dans sa propre barre au-dessus du champ de saisie de Claude C
 
 Le repère n'est pas réglable : c'est le **budget numérique quotidien compatible avec l'Accord de Paris**, le même pour tout le monde. La méthode et ses sources sont dans [METHODE.md](METHODE.md).
 
-| Plante | L'IA a consommé, sur les 24 dernières heures… |
-|---|---|
-| En fleur | ≤ 100 % du budget numérique du jour |
-| Feuillue | ≤ 250 % |
-| Jaunit | ≤ 500 % |
-| Fanée | ≤ 1 000 % |
-| Desséchée | plus de dix fois le budget numérique du jour |
+Le pourcentage affiché est la part du **plafond du jour**, fixé à dix fois ce budget (≈ 4 kg CO₂e), sur les 24 dernières heures.
+
+| Plante | Plafond du jour | Soit, en budget numérique du jour |
+|---|---|---|
+| En fleur | ≤ 10 % | ≤ 1 fois |
+| Feuillue | ≤ 25 % | ≤ 2,5 fois |
+| Jaunit | ≤ 50 % | ≤ 5 fois |
+| Fanée | ≤ 100 % | ≤ 10 fois |
+| Desséchée | > 100 % | plus de 10 fois |
 
 - **Dans l'app desktop**, la plante est dessinée sur 24 px, avec le pourcentage à côté. Le survol affiche les grammes de CO₂e estimés et le repère.
 - **Dans le terminal**, une jauge texte remplace le dessin : `Sobriété IA ▰▰▰▰▱▱▱▱▱▱ 380 % jaunit · mois 12 % · année 3 % (la jauge va de 0 à 1 000 %, le seuil de la plante desséchée).`.

@@ -1,6 +1,6 @@
 {
   "name": "plante-sobriete",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Une plante au-dessus du champ de saisie qui fane quand l'usage de l'IA dépasse le budget numérique compatible avec l'Accord de Paris",
   "author": { "name": "Thomas Binant" },
   "license": "MIT",

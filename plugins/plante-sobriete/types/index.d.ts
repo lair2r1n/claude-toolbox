@@ -11,6 +11,8 @@ export type Cumul = { grammes: number; pourcentBudget: number }
 export type Etat = {
   grammes24h: number
   pourcentBudget: number
+  // Part du plafond (dix fois le budget du jour) : le chiffre affiché à côté de la plante.
+  pourcentPlafond: number
   palier: Palier
   mois: Cumul
   annee: Cumul

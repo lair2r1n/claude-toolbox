@@ -50,10 +50,13 @@ export function elaguer(tours: readonly Tour[], maintenant: number): Tour[] {
   return tours.filter(t => maintenant - t.t < FENETRE_MS)
 }
 
-// Seuils en part du budget numérique du jour. En fleur tant que l'IA seule tient dans tout le
-// budget numérique ; desséchée au-delà de dix fois ce budget.
+// Plafond affiché : dix fois le budget numérique du jour. La plante est desséchée au-delà.
+export const PLAFOND_JOUR_G = BUDGET_JOUR_G * 10
+
+// Seuils en part du plafond. En fleur tant que l'IA seule tient dans tout le budget
+// numérique du jour (10 % du plafond).
 const PALIERS: readonly [number, Palier][] = [
-  [100, 'fleur'], [250, 'feuillue'], [500, 'jaunit'], [1000, 'fanee'],
+  [10, 'fleur'], [25, 'feuillue'], [50, 'jaunit'], [100, 'fanee'],
 ]
 
 export function palierPour(pourcent: number): Palier {
@@ -94,11 +97,13 @@ function cumul(jours: Jours, prefixe: string, budget: number): Cumul {
 export function etatPour(tours: readonly Tour[], jours: Jours, maintenant: number): Etat {
   const grammes24h = elaguer(tours, maintenant).reduce((s, t) => s + t.g, 0)
   const pourcentBudget = Math.round((grammes24h / BUDGET_JOUR_G) * 100)
+  const pourcentPlafond = Math.round((grammes24h / PLAFOND_JOUR_G) * 100)
   const aujourdhui = cleJour(maintenant)
   return {
     grammes24h,
     pourcentBudget,
-    palier: palierPour(pourcentBudget),
+    pourcentPlafond,
+    palier: palierPour(pourcentPlafond),
     // Mois et année civils en cours, rapportés au budget numérique du mois (1/12) et de l'année.
     mois: cumul(jours, aujourdhui.slice(0, 7), BUDGET_NUMERIQUE_MOIS_G),
     annee: cumul(jours, aujourdhui.slice(0, 4), BUDGET_NUMERIQUE_ANNUEL_G),
