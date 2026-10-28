@@ -33,7 +33,8 @@ async function rafraichir($: EngineInterface) {
   const tours = await lireTours($)
   const suivant = etatPour(tours, await lireJours($, tours), await $.clock.now())
   await update($, etat, avant =>
-    estComplet(avant) && avant.pourcentPlafond === suivant.pourcentPlafond && avant.palier === suivant.palier
+    estComplet(avant) && avant.pourcentPlafond === suivant.pourcentPlafond
+      && avant.pourcentBudget === suivant.pourcentBudget && avant.palier === suivant.palier
       && avant.mois.pourcentBudget === suivant.mois.pourcentBudget
       && avant.annee.pourcentBudget === suivant.annee.pourcentBudget
       ? avant
@@ -84,7 +85,8 @@ export const register: Register = on => {
     // Le terminal connaît l'élément Svg mais n'en dessine rien : il garde la version texte.
     const Svg = e.surface !== 'terminal' && 'Svg' in elements ? elements.Svg : undefined
     const infobulle = `Plante ${LIBELLES[s.palier]} : l'IA a émis environ ${formatGrammes(s.grammes24h)} CO₂e et consommé ${formatLitres(litresPour(s.grammes24h))} d'eau en 24 h, `
-      + `soit ${s.pourcentPlafond} % du plafond (${formatGrammes(PLAFOND_JOUR_G)}, dix fois le budget du jour) et ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
+      + `soit ${s.pourcentBudget} % du budget numérique du jour (${formatGrammes(BUDGET_JOUR_G)}, Accord de Paris, ADEME-Arcep). `
+      + `La plante se dessèche au-delà de dix fois ce budget (${formatGrammes(PLAFOND_JOUR_G)}) : ${s.pourcentPlafond} % atteint. `
       + `Ce mois-ci : ${formatGrammes(s.mois.grammes)} et ${formatLitres(litresPour(s.mois.grammes))} d'eau, ${s.mois.pourcentBudget} % du budget du mois (${formatGrammes(BUDGET_NUMERIQUE_MOIS_G)}). `
       + `Cette année : ${formatGrammes(s.annee.grammes)} et ${formatLitres(litresPour(s.annee.grammes))} d'eau, ${s.annee.pourcentBudget} % du budget de l'année (${formatGrammes(BUDGET_NUMERIQUE_ANNUEL_G)}). `
       + 'Facteurs : ACV Mistral Large 2 (CO₂e et eau).'
@@ -102,14 +104,14 @@ export const register: Register = on => {
             ? (
                 <Box flexDirection="row" columnGap={1} alignItems="center">
                   <Svg key="plante" {...plantSvg(s.palier, infobulle)} isInteractive alt={infobulle} />
-                  <Text color={COULEURS[s.palier]} bold>{`${s.pourcentPlafond} %`}</Text>
+                  <Text color={COULEURS[s.palier]} bold>{`${s.pourcentBudget} %`}</Text>
                   <Text>{impact}</Text>
                   <Text dimColor>{cumuls}</Text>
                 </Box>
               )
             : (
                 <Text>
-                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentPlafond)} ${s.pourcentPlafond} %`}</Text>
+                  <Text color={COULEURS[s.palier]}>{`${jaugeTexte(s.pourcentPlafond)} ${s.pourcentBudget} %`}</Text>
                   <Text dimColor>{` ${LIBELLES[s.palier]} · `}</Text>
                   <Text>{impact}</Text>
                   <Text dimColor>{` · ${cumuls}`}</Text>

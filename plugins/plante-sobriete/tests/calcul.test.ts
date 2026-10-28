@@ -80,7 +80,7 @@ for (const surface of ['terminal', 'desktop'] as const) {
       props: { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 120 },
     } as never)
     const arbre = JSON.stringify(await (bandeau as unknown as { drawn: () => Promise<unknown> }).drawn())
-    expect(arbre.includes('57 %')).toBe(true)
+    expect(arbre.includes('568 %')).toBe(true)
     expect(arbre.includes('mois ')).toBe(true)
     expect(arbre.includes('☁️')).toBe(true)
     expect(arbre.includes('💧')).toBe(true)

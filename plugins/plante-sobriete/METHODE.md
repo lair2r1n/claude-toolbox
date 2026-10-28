@@ -43,7 +43,7 @@ Ce sont des cumuls depuis le début du mois et de l'année, pas des rythmes : il
 
 ## 5. Les paliers
 
-Le chiffre affiché à côté de la plante est la part d'un **plafond du jour** fixé à dix fois le budget numérique du jour (≈ 4,04 kg CO₂e). Le survol donne aussi la part du budget lui-même.
+Le chiffre affiché à côté de la plante est la part du **budget numérique du jour** consommée par l'IA. La plante est graduée sur un **plafond** fixé à dix fois ce budget (≈ 4,04 kg CO₂e), découpé en quarts. Dans le terminal, la jauge suit le plafond.
 
 | Palier | Part du plafond | Part du budget numérique du jour |
 |---|---|---|
