@@ -16,6 +16,11 @@
       "name": "plante-sobriete",
       "source": "./plugins/plante-sobriete",
       "description": "Une plante au-dessus du champ de saisie qui fane quand l'usage de l'IA dépasse le budget numérique compatible avec l'Accord de Paris"
+    },
+    {
+      "name": "suivi-legifrance",
+      "source": "./plugins/suivi-legifrance",
+      "description": "Liste les liens Légifrance récupérés par le MCP OpenLegi / Légifrance"
     }
   ]
 }

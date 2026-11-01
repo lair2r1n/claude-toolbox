@@ -1,0 +1,8 @@
+{
+  "name": "suivi-legifrance",
+  "version": "0.1.0",
+  "description": "Liste les liens Légifrance récupérés par le MCP OpenLegi / Légifrance",
+  "author": { "name": "Thomas Binant" },
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

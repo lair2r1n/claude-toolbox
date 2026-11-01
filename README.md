@@ -8,6 +8,7 @@ Mods, skills et plugins maison pour [Claude Code](https://claude.com/claude-code
 |---|---|---|
 | [`barre-tokens`](plugins/barre-tokens) | mod | Barre au-dessus du champ de saisie : projet et branche git, remplissage du contexte, tokens du dernier tour (entrée ↑, sortie ↓, part du cache), total et coût de la session, limites de débit 5 h / 7 j |
 | [`plante-sobriete`](plugins/plante-sobriete) | mod | Plante qui fane quand l'usage de l'IA dépasse, sur 24 h glissantes, la part du budget numérique compatible avec l'Accord de Paris (ADEME-Arcep, ACV Mistral) |
+| [`suivi-legifrance`](plugins/suivi-legifrance) | mod | Commande `/legifrance` : liste les appels au MCP OpenLegi / Légifrance de la session et les liens récupérés, avec leur titre ; `/legifrance effacer` vide la liste |
 
 ## Installation
 
@@ -16,6 +17,7 @@ Dans un terminal, à l'invite de Claude Code :
 ```
 /plugin install barre-tokens --marketplace lair2r1n/claude-toolbox
 /plugin install plante-sobriete --marketplace lair2r1n/claude-toolbox
+/plugin install suivi-legifrance --marketplace lair2r1n/claude-toolbox
 ```
 
 Répondre `y` pour ajouter la marketplace, puis choisir la portée (utilisateur par défaut).
