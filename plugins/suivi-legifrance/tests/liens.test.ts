@@ -74,3 +74,54 @@ test('liens BOFiP : le titre numéroté, puis l\'identifiant à défaut', () => 
   expect(extraireLiens(sortie, 'bofip')[0]?.titre).toBe('BOI-BIC-RICI-10-10 - BIC - Crédit d’impôt recherche')
   expect(extraireLiens('https://bofip.impots.gouv.fr/bofip/1-PGP.html/identifiant=BOI-X-20250101', 'bofip')[0]?.titre).toBe('BOI-X-20250101')
 })
+
+test('requête de chaque type d’outil', () => {
+  expect(requete({ nom: 'dupont', prenoms: 'marie', per_page: 2 })).toBe('dupont · marie')
+  expect(requete({ ville: 'TOULOUSE', famille: 'creation', limit: 2 })).toBe('TOULOUSE')
+  expect(requete({ tribunal: 'toulouse', limit: 2 })).toBe('toulouse')
+  expect(requete({ lat: 43.6047, long: 1.4442, radius: 1 })).toBe('43.6047 · 1.4442')
+  expect(requete({ identifiant_juridique: 'BOI-BIC-RICI-10-10' })).toBe('BOI-BIC-RICI-10-10')
+})
+
+test('liens RNE : convention collective, seule ou dans un profil complet', () => {
+  const lien = 'https://www.legifrance.gouv.fr/conv_coll/id/KALICONT000005635782'
+  const seule = [
+    'IDCC 2149: Convention collective nationale des activités du déchet',
+    'État: VIGUEUR_ETEN',
+    `Légifrance: ${lien}`,
+  ].join('\n')
+  expect(extraireLiens(seule, 'rne')).toEqual([{ titre: 'IDCC 2149: Convention collective nationale des activités du déchet', url: lien }])
+
+  const profil = [
+    '- IDCC 2149: Convention collective nationale des activités du déchet',
+    `  Légifrance: ${lien}`,
+    '## LIENS UTILES',
+    'Annuaire Entreprises: https://annuaire-entreprises.data.gouv.fr/entreprise/344984869',
+    'Extrait RNE/KBIS (téléchargement direct): https://annuaire-entreprises.data.gouv.fr/justificatif-immatriculation-pdf/344984869',
+  ].join('\n')
+  expect(extraireLiens(profil, 'rne').map(l => l.titre)).toEqual([
+    'IDCC 2149: Convention collective nationale des activités du déchet',
+    'Annuaire Entreprises',
+    'Extrait RNE/KBIS (téléchargement direct)',
+  ])
+})
+
+test('liens BOFiP : document consulté et fichier téléchargeable', () => {
+  const document = [
+    '=== BOI-BIC-RICI-10-10 ===',
+    'Titre: BIC - Crédit d’impôt recherche',
+    'Permalien (a copier tel quel, ne pas modifier): https://bofip.impots.gouv.fr/bofip/4678-PGP.html/identifiant=BOI-BIC-RICI-10-10-20250813',
+  ].join('\n')
+  expect(extraireLiens(document, 'bofip')[0]?.titre).toBe('BIC - Crédit d’impôt recherche')
+
+  const fichiers = [
+    '  Nom: bofip_stock_live_20261028.tgz',
+    '  Telechargement: https://bofip.impots.gouv.fr/opendata/stock/10',
+  ].join('\n')
+  expect(extraireLiens(fichiers, 'bofip')[0]?.titre).toBe('bofip_stock_live_20261028.tgz')
+})
+
+test('une réponse sans lien n’en invente pas', () => {
+  expect(extraireLiens('SIREN: 884790585\nNom: TOPCO BRETEUIL', 'rne')).toEqual([])
+  expect(extraireLiens('=== 30 serie(s) BOFiP ===\n  BIC: 1227 document(s)', 'bofip')).toEqual([])
+})

@@ -12,7 +12,7 @@ type Regle = {
   url: RegExp
   // Ligne de titre, vue avant l'URL.
   titre?: RegExp
-  // Le titre est le texte qui précède l'URL sur sa ligne.
+  // Le texte qui précède l'URL sur sa ligne prime sur la ligne de titre.
   titreEnLigne?: boolean
 }
 
@@ -29,10 +29,11 @@ const REGLES: Record<Source, Regle> = {
   bodacc: { libelle: 'BODACC', url: urls('bodacc\\.fr'), titre: /^\s*Commercant\s*:.*$/ },
   rne: {
     libelle: 'RNE',
-    url: urls('annuaire-entreprises\\.data\\.gouv\\.fr|data\\.inpi\\.fr'),
+    url: urls('annuaire-entreprises\\.data\\.gouv\\.fr|data\\.inpi\\.fr|legifrance\\.gouv\\.fr'),
+    titre: /^\s*(-\s*)?IDCC\s+\d+\s*:.*$/,
     titreEnLigne: true,
   },
-  bofip: { libelle: 'BOFiP', url: urls('bofip\\.impots\\.gouv\\.fr'), titre: /^\s*\[\d+\]\s+\S.*$/ },
+  bofip: { libelle: 'BOFiP', url: urls('bofip\\.impots\\.gouv\\.fr'), titre: /^\s*(\[\d+\]\s+\S.*|Titre\s*:.*|Nom\s*:.*)$/ },
 }
 
 export const SOURCES = (Object.keys(REGLES) as Source[]).map(id => ({ id, libelle: REGLES[id].libelle }))
@@ -56,16 +57,20 @@ export function nomOutil(outil: string): string {
   return (outil.split('__').pop() ?? outil).replace(/_/g, ' ')
 }
 
-// Ce qui a été cherché : search, puis les autres champs texte connus.
+// Ce qui a été cherché : les champs de recherche connus, dans cet ordre.
 export function requete(entree: Record<string, unknown>): string {
-  const morceaux = ['search', 'code_name', 'query', 'name', 'siren', 'identifiant_juridique', 'id', 'text_id', 'numero']
+  const morceaux = [
+    'search', 'code_name', 'query', 'name', 'nom', 'prenoms', 'siren', 'identifiant_juridique', 'tribunal',
+    'ville', 'code_postal', 'region', 'departement', 'activite_principale', 'lat', 'long', 'type_fichier',
+    'id', 'text_id', 'numero',
+  ]
     .map(cle => entree[cle])
-    .filter((v): v is string => typeof v === 'string' && v.trim() !== '')
+    .filter((v): v is string | number => typeof v === 'number' || (typeof v === 'string' && v.trim() !== ''))
   return morceaux.join(' · ')
 }
 
 function nettoyer(titre: string): string {
-  return titre.replace(/^\s*(\d+\.|\[\d+\])\s+/, '').replace(/^(Titre|Texte|Commercant)\s*:\s*/, '').replace(/\*\*/g, '').trim()
+  return titre.trim().replace(/^(\d+\.|\[\d+\]|-)\s+/, '').replace(/^(Titre|Texte|Commercant|Nom)\s*:\s*/, '').replace(/\*\*/g, '')
 }
 
 // Chaque URL de la source dans la réponse, avec son titre.
@@ -81,8 +86,10 @@ export function extraireLiens(sortie: string, source: Source): LienJuridique[] {
       if (vus.has(url)) continue
       vus.add(url)
       const enLigne = regle.titreEnLigne ? ligne.slice(0, m.index).replace(/[\s:]+$/, '').trim() : ''
+      // « Légifrance : … » ne dit rien : la convention est sur la ligne de titre.
+      const libelle = enLigne === 'Légifrance' ? '' : enLigne
       const id = (url.split('/').filter(Boolean).pop() ?? url).replace(/^identifiant=/, '')
-      liens.push({ titre: enLigne || dernierTitre || id, url })
+      liens.push({ titre: libelle || dernierTitre || id, url })
     }
   }
   return liens

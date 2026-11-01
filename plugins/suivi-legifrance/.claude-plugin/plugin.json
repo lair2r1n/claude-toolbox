@@ -1,6 +1,6 @@
 {
   "name": "suivi-legifrance",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Panneau des sources officielles consultées (Légifrance, BODACC, RNE, BOFiP) et des liens récupérés",
   "author": { "name": "Thomas Binant" },
   "license": "MIT",
