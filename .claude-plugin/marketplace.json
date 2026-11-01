@@ -20,7 +20,7 @@
     {
       "name": "suivi-legifrance",
       "source": "./plugins/suivi-legifrance",
-      "description": "Panneau des liens Légifrance récupérés par le MCP OpenLegi / Légifrance"
+      "description": "Panneau des sources officielles consultées (Légifrance, BODACC, RNE, BOFiP) et des liens récupérés"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "suivi-legifrance",
-  "version": "0.2.0",
-  "description": "Panneau des liens Légifrance récupérés par le MCP OpenLegi / Légifrance",
+  "version": "0.3.0",
+  "description": "Panneau des sources officielles consultées (Légifrance, BODACC, RNE, BOFiP) et des liens récupérés",
   "author": { "name": "Thomas Binant" },
   "license": "MIT",
   "types": "./types/index.d.ts"

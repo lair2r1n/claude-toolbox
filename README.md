@@ -8,7 +8,7 @@ Mods, skills et plugins maison pour [Claude Code](https://claude.com/claude-code
 |---|---|---|
 | [`barre-tokens`](plugins/barre-tokens) | mod | Barre au-dessus du champ de saisie : projet et branche git, remplissage du contexte, tokens du dernier tour (entrée ↑, sortie ↓, part du cache), total et coût de la session, limites de débit 5 h / 7 j |
 | [`plante-sobriete`](plugins/plante-sobriete) | mod | Plante qui fane quand l'usage de l'IA dépasse, sur 24 h glissantes, la part du budget numérique compatible avec l'Accord de Paris (ADEME-Arcep, ACV Mistral) |
-| [`suivi-legifrance`](plugins/suivi-legifrance) | mod | Panneau qui s'ouvre au premier appel au MCP OpenLegi / Légifrance et liste les appels de la session et les liens récupérés, avec leur titre ; `/legifrance` le rouvre, `/legifrance effacer` vide la liste |
+| [`suivi-legifrance`](plugins/suivi-legifrance) | mod | Panneau « Sources officielles » qui s'ouvre au premier appel aux MCP Légifrance, BODACC, RNE ou BOFiP et liste, par source, les appels de la session et les liens récupérés ; `/legifrance` le rouvre, `/legifrance effacer` vide la liste |
 
 ## Installation
 
